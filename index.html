@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <meta name="theme-color" content="#153a3b">
   <meta name="description" content="An interactive psychoeducational resource for recognizing unhealthy family dynamics, strengthening boundaries, and building healthier relationships.">
-  <title>Family Patterns Lab | Interactive Psychoeducation</title>
+  <title>Family Patterns Lab | A Playable Quest for Healthier Family Patterns</title>
   <style>
     :root{--ink:#183233;--muted:#607474;--paper:#fbfaf6;--card:#fff;--pine:#153a3b;--sage:#a9c7b4;--mint:#e8f2eb;--gold:#e6b86a;--rose:#d98d82;--lav:#cbc4e7;--line:#dce5df;--shadow:0 12px 35px rgba(21,58,59,.10);--radius:22px}
     *{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--paper);color:var(--ink);font:16px/1.58 Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}button,input,textarea,select{font:inherit}button{cursor:pointer}.skip{position:absolute;left:-9999px}.skip:focus{left:12px;top:12px;z-index:99;background:#fff;padding:10px;border-radius:8px}.shell{width:min(1180px,calc(100% - 32px));margin:auto}.topbar{position:sticky;top:0;z-index:20;background:rgba(251,250,246,.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}.topinner{height:68px;display:flex;align-items:center;gap:18px}.brand{font-weight:850;letter-spacing:-.04em;color:var(--pine);white-space:nowrap}.brand span{color:#9f6d25}.nav{margin-left:auto;display:flex;gap:8px}.nav a{color:var(--ink);text-decoration:none;padding:8px 10px;border-radius:9px}.nav a:hover{background:var(--mint)}.iconbtn{border:1px solid var(--line);background:#fff;border-radius:12px;padding:9px 12px;color:var(--ink)}
@@ -34,34 +34,89 @@
     .credit{margin-top:24px;text-align:center;font-weight:750;color:var(--ink)}.credit a{color:var(--pine);text-underline-offset:3px}.credit a:hover{text-decoration-thickness:2px}.toast{position:fixed;right:20px;bottom:20px;background:#102728;color:#fff;padding:12px 16px;border-radius:12px;transform:translateY(90px);opacity:0;transition:.3s;z-index:99}.toast.show{transform:none;opacity:1}
     @media(max-width:900px){.heroGrid{grid-template-columns:1fr}.heroArt{min-height:360px}.moduleGrid{grid-template-columns:1fr 1fr}.dashboard{grid-template-columns:1fr}.nav{display:none}}@media(max-width:620px){.shell{width:min(100% - 22px,1180px)}.hero{padding-top:42px}.heroArt{transform:scale(.82);margin:-30px 0}.moduleGrid,.choiceGrid,.footerGrid{grid-template-columns:1fr}.lab,.journal{padding:22px;border-radius:22px}.sectionHead{display:block}.sectionHead p{margin-top:10px}.dialogBody{padding:18px}}
     @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.orbit,.orb{animation:none}}
+
+    /* ===== GAMIFICATION LAYER ===== */
+    .hud{background:linear-gradient(125deg,#132228,#153a3b 55%,#2c5a55);color:#eef6f2;border-radius:26px;padding:24px;margin-bottom:16px;box-shadow:var(--shadow)}
+    .hudTop{display:flex;gap:20px;align-items:center;flex-wrap:wrap}
+    .lvlCircle{width:86px;height:86px;border-radius:50%;background:radial-gradient(circle at 32% 28%,#ffe9b8,var(--gold) 58%,#c08f3e);color:#3a2a08;display:grid;place-items:center;text-align:center;box-shadow:0 8px 22px rgba(0,0,0,.28);flex:none}
+    .lvlCircle b{font-size:1.7rem;line-height:1;display:block}
+    .lvlCircle small{font-size:.6rem;font-weight:900;letter-spacing:.14em}
+    .lvlMeta{flex:1;min-width:230px}
+    .lvlMeta b{font:800 1.45rem Georgia,serif;display:block}
+    .lvlMeta span{color:#c8dbd5;font-size:.92rem}
+    .xpbar{height:13px;border-radius:99px;background:rgba(255,255,255,.16);overflow:hidden;margin-top:9px}
+    .xpbar i{display:block;height:100%;background:linear-gradient(90deg,var(--gold),#ffd98f);width:0;transition:width .7s cubic-bezier(.2,.9,.3,1)}
+    .hudStats{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-top:18px}
+    .hud .stat{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.16);color:#eef6f2}
+    .hud .stat .small{color:#bcd2cb}
+    .hud .bar{background:rgba(255,255,255,.18)}
+    .worldBars{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:12px}
+    .worldBar{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);border-radius:14px;padding:10px 13px;font-size:.85rem;font-weight:750}
+    .worldBar .bar{margin-top:7px}
+    .gameRow{display:grid;grid-template-columns:.9fr 1.6fr;gap:16px;margin-bottom:54px}
+    .dailyCard,.badgeCard{background:#fff;border:1px solid var(--line);border-radius:20px;padding:20px}
+    .dailyCard h3,.badgeCard h3{margin:0 0 6px;font:750 1.15rem Georgia,serif}
+    .dailyCard p{color:var(--muted);margin:6px 0}
+    .badgeGrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(128px,1fr));gap:10px;margin-top:12px}
+    .badge{border:1px solid var(--line);border-radius:15px;padding:12px 10px;text-align:center;background:var(--paper)}
+    .badge .bIcon{width:44px;height:44px;margin:0 auto 7px;border-radius:50%;display:grid;place-items:center;font-size:1.25rem;background:linear-gradient(135deg,#ffe9b8,var(--gold));color:#5f400f;box-shadow:0 4px 10px rgba(0,0,0,.12)}
+    .badge b{display:block;font-size:.86rem;line-height:1.25}
+    .badge span{font-size:.72rem;color:var(--muted);line-height:1.3;display:block;margin-top:3px}
+    .badge.locked{opacity:.42;filter:grayscale(.85)}
+    .badge.locked .bIcon{background:#e4e9e5;color:#7d8b85;box-shadow:none}
+    .xpTag{background:linear-gradient(90deg,#ffe9b8,#f4cd7e)!important;color:#5f400f!important}
+    .module.done{outline:3px solid var(--gold)}
+    .points li.clue{cursor:pointer;background:#fff;border:1px solid var(--line);border-radius:13px;padding:13px 15px 13px 42px;transition:.25s}
+    .points li.clue:before{content:'✦';left:14px}
+    .points li.clue.locked .ct{filter:blur(6px);opacity:.45;user-select:none}
+    .points li.clue.locked:after{content:attr(data-hint);position:absolute;right:13px;top:11px;background:var(--pine);color:#fff;font-size:.72rem;font-weight:800;border-radius:99px;padding:4px 9px}
+    .points li.clue.open{border-color:#8db8a2;background:var(--mint)}
+    .clueStatus{margin-top:12px;font-weight:800;color:var(--pine);font-size:.92rem}
+    .powerMove{background:#fdf6e3;border:1px dashed #d9b356;border-radius:16px;padding:16px 18px;margin-top:16px}
+    .powerMove h4{margin:0 0 4px}
+    .powerMove p{margin:0 0 10px;color:var(--muted);font-size:.92rem}
+    .scoreRow{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px}
+    .scorePill{background:var(--pine);color:#fff;border-radius:99px;padding:6px 12px;font-weight:800;font-size:.85rem}
+    .scorePill.gold{background:linear-gradient(90deg,#e9bd60,#c08f3e);color:#2e2105}
+    .quizResult{border-radius:16px;padding:18px;margin-bottom:16px;background:linear-gradient(125deg,#fdf3d3,#fbeec4);border:1px solid #e3c26a;font-weight:700}
+    .quizResult .stars{font-size:1.7rem;color:#b57f16;letter-spacing:.18em}
+    #confetti{position:fixed;inset:0;pointer-events:none;z-index:200}
+    body.dark .dailyCard,body.dark .badgeCard{background:#193536}
+    body.dark .badge{background:#102728}
+    body.dark .points li.clue{background:#193536}
+    body.dark .points li.clue.open{background:#234745}
+    body.dark .powerMove{background:#2f2a17}
+    body.dark .clueStatus{color:#b1d5c8}
+    @media(max-width:900px){.hudStats,.worldBars,.gameRow{grid-template-columns:1fr}}
   </style>
 </head>
 <body>
   <a class="skip" href="#main">Skip to content</a>
-  <header class="topbar"><div class="shell topinner"><div class="brand">FAMILY <span>PATTERNS</span> LAB</div><nav class="nav" aria-label="Main"><a href="#path">Learn</a><a href="#practice">Practice</a><a href="#quiz">Check-in</a><a href="#journal">Journal</a></nav><button class="iconbtn" id="theme" aria-label="Toggle dark mode">◐</button></div></header>
+  <header class="topbar"><div class="shell topinner"><div class="brand">FAMILY <span>PATTERNS</span> LAB</div><nav class="nav" aria-label="Main"><a href="#path">Quests</a><a href="#practice">Arcade</a><a href="#quiz">Arena</a><a href="#journal">Journal</a></nav><button class="iconbtn" id="theme" aria-label="Toggle dark mode">◐</button></div></header>
   <main id="main" class="shell">
-    <section class="hero"><div class="heroGrid"><div><span class="eyebrow">● Notice. Reflect. Choose.</span><h1>Change your role in the <em>family pattern.</em></h1><p class="lede">A self-paced, interactive resource for recognizing unhealthy dynamics, making choices within your control, and practicing healthier ways of relating.</p><div class="actions"><button class="primary" onclick="document.querySelector('#path').scrollIntoView()">Start the journey</button><button class="secondary" onclick="openResume()">Resume where I left off</button></div></div><div class="heroArt" aria-hidden="true"><div class="orbit"><div class="orb">UNLEARN</div><div class="orb">HEAL</div><div class="orb">GROW</div></div><div class="center">Your choices<br>are the center</div></div></div></section>
+    <section class="hero"><div class="heroGrid"><div><span class="eyebrow">● A PLAYABLE JOURNEY · NOTICE · PLAY · CHOOSE</span><h1>Change your role in the <em>family pattern.</em></h1><p class="lede">No lectures and no homework. Explore seventeen bite-size quests across three worlds — Unlearn, Heal, and Grow — collect clue cards, earn XP, unlock badges, and practice new moves between quests.</p><div class="actions"><button class="primary" onclick="document.querySelector('#path').scrollIntoView()">Start your quest</button><button class="secondary" onclick="openResume()">Continue my quest</button></div></div><div class="heroArt" aria-hidden="true"><div class="orbit"><div class="orb">UNLEARN</div><div class="orb">HEAL</div><div class="orb">GROW</div></div><div class="center">Your choices<br>are the center</div></div></div></section>
     <aside class="notice"><strong>Educational resource, not therapy.</strong> This independent psychoeducational site supports reflection and skills practice. It does not provide diagnosis, treatment, or individualized clinical advice. If reflection brings up danger, abuse, or overwhelming distress, pause and seek appropriate professional or emergency support.</aside>
-    <div class="dashboard" aria-label="Your progress"><div class="stat"><b><span id="doneCount">0</span>/17</b> learning modules explored<div class="bar"><i id="progressBar"></i></div></div><div class="stat"><b id="reflectionCount">0</b> private reflections saved<span class="small">Stored only in this browser</span></div><div class="stat"><b id="streak">A beginning</b><span class="small">Change starts with noticing one pattern</span></div></div>
-    <section id="path"><div class="sectionHead"><div><span class="eyebrow">THE LEARNING PATH</span><h2>Seventeen small steps</h2></div><p>Each module takes about three minutes. Browse in order or jump directly to the relationship or pattern that matters today.</p></div>
-      <div class="pathTabs" role="group" aria-label="Filter modules"><button class="tab active" data-filter="all">All 17</button><button class="tab" data-filter="unlearn">Unlearn</button><button class="tab" data-filter="heal">Heal</button><button class="tab" data-filter="grow">Grow</button></div>
+    <div class="hud" aria-label="Your quest progress"><div class="hudTop"><div class="lvlCircle"><div><b id="hudLevel">1</b><small>LEVEL</small></div></div><div class="lvlMeta"><b id="hudTitle">Pattern Spotter</b><span id="xpText">0 XP</span><div class="xpbar"><i id="xpFill"></i></div></div></div><div class="hudStats"><div class="stat"><b><span id="doneCount">0</span>/17</b> quests cleared<div class="bar"><i id="progressBar"></i></div></div><div class="stat"><b id="reflectionCount">0</b> reflections saved<span class="small">Stored only in this browser</span></div><div class="stat"><b id="streak">A beginning</b><span class="small">Your current chapter</span></div></div><div class="worldBars" id="worldBars"></div></div>
+    <div class="gameRow"><div class="dailyCard" id="dailyCard"></div><div class="badgeCard"><h3>Your trophy shelf</h3><p class="small" style="color:var(--muted);margin:0">Twelve badges hide in the quests, the Arcade, and the Arena. Grey ones are still out there.</p><div class="badgeGrid" id="badgeGrid"></div></div></div>
+    <section id="path"><div class="sectionHead"><div><span class="eyebrow">YOUR QUEST TRAIL</span><h2>Seventeen quests, three worlds</h2></div><p>Each quest takes about three minutes and pays out XP. Follow the trail in order, or warp straight to the pattern that matters today — nothing is locked.</p></div>
+      <div class="pathTabs" role="group" aria-label="Filter modules"><button class="tab active" data-filter="all">Full map · 17</button><button class="tab" data-filter="unlearn">World 1 · Unlearn</button><button class="tab" data-filter="heal">World 2 · Heal</button><button class="tab" data-filter="grow">World 3 · Grow</button></div>
       <input class="search" id="search" type="search" placeholder="Search: boundaries, guilt, siblings, estrangement…" aria-label="Search learning modules">
       <div class="moduleGrid" id="modules"></div>
     </section>
 
-    <section class="lab" id="practice"><span class="eyebrow">PRACTICE LAB</span><h2>Try the ideas, safely</h2><p class="labIntro">These tools help translate insight into a next step. Nothing is sent anywhere; your inputs remain in this browser.</p>
+    <section class="lab" id="practice"><span class="eyebrow">TRAINING ARCADE</span><h2>Mini-games, real skills</h2><p class="labIntro">Warm up here between quests — every mini-game pays XP the first time you beat it. Nothing is sent anywhere; your inputs remain in this browser.</p>
       <div class="toolTabs" role="tablist"><button class="toolTab active" data-tool="scenario">Boundary or control?</button><button class="toolTab" data-tool="builder">Script builder</button><button class="toolTab" data-tool="stage">Change stage</button><button class="toolTab" data-tool="support">Support circle</button></div>
-      <div class="toolPanel active" id="scenario"><div class="question" id="scenarioQ"></div><div class="choiceGrid" id="scenarioChoices"></div><div class="feedback" id="scenarioFeedback"></div><button class="primary" id="nextScenario" style="margin-top:15px">Next scenario</button></div>
+      <div class="toolPanel active" id="scenario"><div class="scoreRow"><span class="scorePill gold" id="scScore">Score: 0</span><span class="scorePill" id="scCombo">Combo ×0</span><span class="scorePill" id="scRound">Round: 1 / 5</span></div><div class="question" id="scenarioQ"></div><div class="choiceGrid" id="scenarioChoices"></div><div class="feedback" id="scenarioFeedback"></div><button class="primary" id="nextScenario" style="margin-top:15px">Next scenario</button></div>
       <div class="toolPanel" id="builder"><h3>Build a clear boundary statement</h3><p>A boundary describes your action, not a demand that controls another person.</p><div class="field"><label for="situation">When this happens…</label><input id="situation" placeholder="e.g., the conversation becomes insulting"></div><div class="field"><label for="need">I need / will…</label><input id="need" placeholder="e.g., end the call and try again another day"></div><div class="field"><label for="tone">Choose a tone</label><select id="tone"><option value="warm">Warm and direct</option><option value="brief">Brief and firm</option><option value="collab">Collaborative</option></select></div><button class="primary" id="makeScript">Create my script</button><div class="scriptOut" id="scriptOut" aria-live="polite">Your draft will appear here.</div></div>
       <div class="toolPanel" id="stage"><h3>Where are you in the change process?</h3><p>Select the statement that fits best today. Stages are not grades; people move back and forth.</p><div class="pillList" id="stageChoices"></div><div class="resultCard" id="stageResult">Choose one to see a compassionate next step.</div></div>
       <div class="toolPanel" id="support"><h3>Map your support circle</h3><p>Healthy support can come from relatives, friends, community, peers, mentors, or professionals.</p><div class="field"><label for="safePeople">People who feel emotionally safe</label><textarea id="safePeople" placeholder="Names or roles—use initials if you prefer"></textarea></div><div class="field"><label for="supportNeed">What support do you need more of?</label><select id="supportNeed"><option>Someone to listen without fixing</option><option>Practical help</option><option>Honest, caring accountability</option><option>Shared joy and companionship</option><option>Professional support</option></select></div><button class="primary" id="saveSupport">Save privately</button></div>
     </section>
 
-    <section id="quiz"><div class="sectionHead"><div><span class="eyebrow">KNOWLEDGE CHECK</span><h2>What are you taking with you?</h2></div><p>No score is stored. Use these questions to clarify ideas, not to judge yourself.</p></div><div id="quizList"></div></section>
-    <section class="journal" id="journal"><h2>A note to your future self</h2><p>What family pattern do you want to stop carrying forward—and what is one small action that reflects the person you want to be?</p><textarea id="futureNote" placeholder="Write freely. This stays on your device."></textarea><div class="actions"><button class="primary" id="saveJournal">Save privately</button><button class="secondary" id="exportJournal">Export my reflections</button><button class="secondary" id="clearData">Clear my data</button></div></section>
+    <section id="quiz"><div class="sectionHead"><div><span class="eyebrow">CHALLENGE ARENA</span><h2>The Pattern Trial</h2></div><p>Five questions, stars instead of grades. Answer them all to reveal your star rating — XP for every correct answer, and zero judgement either way.</p></div><div id="quizResult" class="quizResult hidden"></div><div id="quizList"></div></section>
+    <section class="journal" id="journal"><h2>Bonus quest: a note to your future self</h2><p>What family pattern do you want to stop carrying forward—and what is one small action that reflects the person you want to be?</p><textarea id="futureNote" placeholder="Write freely. This stays on your device."></textarea><div class="actions"><button class="primary" id="saveJournal">Save privately</button><button class="secondary" id="exportJournal">Export my reflections</button><button class="secondary" id="clearData">Clear my data</button></div></section>
   </main>
   <footer class="footer"><div class="shell"><div class="footerGrid"><div><strong>About this resource</strong><p class="small">Family Patterns Lab offers accessible psychoeducation, guided reflection, practical boundary tools, and relationship-focused exercises for people navigating difficult family dynamics. Use what fits your circumstances and move at a pace that feels manageable.</p></div><div><strong>A gentle safety note</strong><p class="small">Boundaries and distance can affect safety in abusive or coercive situations. Consider individualized support and a safety plan. In the U.S., call or text 988 for a mental-health crisis; call 911 for immediate danger. This website does not provide diagnosis, treatment, or emergency services.</p></div></div><div class="credit">Developed by <a href="https://mindx.us/" target="_blank" rel="noopener noreferrer">Mind X Associates</a></div></div></footer>
-  <dialog id="moduleDialog"><div class="dialogHead"><h2 id="dialogTitle"></h2><button class="close" aria-label="Close">×</button></div><div class="dialogBody"><div class="takeaway" id="takeaway"></div><ul class="points" id="points"></ul><div class="reflect"><h4 id="prompt"></h4><textarea id="moduleNote" placeholder="Your private reflection…"></textarea><div class="saveRow"><button class="save" id="saveNote">Save reflection</button><button class="complete" id="markComplete">Mark explored</button></div></div></div></dialog>
+  <dialog id="moduleDialog"><div class="dialogHead"><h2 id="dialogTitle"></h2><button class="close" aria-label="Close">×</button></div><div class="dialogBody"><div class="takeaway" id="takeaway"></div><ul class="points" id="points"></ul><div class="clueStatus" id="clueStatus"></div><div class="powerMove"><h4>Choose your power move</h4><p>Before you reflect, pick the one move you would actually try in real life. Choosing it earns +10 XP.</p><div class="pillList" id="pmList"></div></div><div class="reflect"><h4 id="prompt"></h4><textarea id="moduleNote" placeholder="Your private reflection…"></textarea><div class="saveRow"><button class="save" id="saveNote">Save reflection · +15 XP</button><button class="complete" id="markComplete">Complete quest · +40 XP</button></div></div></div></dialog>
   <div class="toast" id="toast" role="status"></div>
   <script>
   const modules=[
@@ -107,17 +162,17 @@
   let activeId=1,scenarioIndex=0,currentFilter='all';
   const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
   const data=JSON.parse(localStorage.getItem('fpl-data')||'{"done":[],"notes":{}}');
-  function persist(){localStorage.setItem('fpl-data',JSON.stringify(data));updateStats()}
+  function persist(){localStorage.setItem('fpl-data',JSON.stringify(data));updateStats();renderGame()}
   function toast(msg){const t=$('#toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2200)}
   function updateStats(){const n=data.done.length;$('#doneCount').textContent=n;$('#progressBar').style.width=(n/17*100)+'%';$('#reflectionCount').textContent=Object.values(data.notes||{}).filter(Boolean).length+(data.futureNote?1:0)+(data.support?1:0);$('#streak').textContent=n===17?'Full journey':n>=10?'Growing':n>=5?'Building momentum':n?'In motion':'A beginning'}
-  function renderModules(){const q=$('#search').value.toLowerCase();$('#modules').innerHTML=modules.filter(m=>(currentFilter==='all'||m.path===currentFilter)&&(`${m.title} ${m.tag} ${m.points.join(' ')}`).toLowerCase().includes(q)).map(m=>`<article class="module ${data.done.includes(m.id)?'done':''}" data-id="${m.id}"><div class="moduleTop"><span class="moduleNum">${m.path.toUpperCase()} · ${String(m.id).padStart(2,'0')} <span class="check">✓ EXPLORED</span></span><h3>${m.title}</h3><p>${m.take}</p><span class="tag">${m.tag}</span></div><button onclick="openModule(${m.id})">Open 3-minute module →</button></article>`).join('')||'<p>No modules match that search.</p>'}
-  function openModule(id){activeId=id;const m=modules.find(x=>x.id===id);$('#dialogTitle').textContent=`${String(id).padStart(2,'0')} · ${m.title}`;$('#takeaway').textContent=m.take;$('#points').innerHTML=m.points.map(x=>`<li>${x}</li>`).join('');$('#prompt').textContent=m.prompt;$('#moduleNote').value=(data.notes||{})[id]||'';$('#markComplete').textContent=data.done.includes(id)?'Explored ✓':'Mark explored';$('#moduleDialog').showModal()}
+  function renderModules(){const q=$('#search').value.toLowerCase();$('#modules').innerHTML=modules.filter(m=>(currentFilter==='all'||m.path===currentFilter)&&(`${m.title} ${m.tag} ${m.points.join(' ')}`).toLowerCase().includes(q)).map(m=>`<article class="module ${data.done.includes(m.id)?'done':''}" data-id="${m.id}"><div class="moduleTop"><span class="moduleNum">${m.path.toUpperCase()} · ${String(m.id).padStart(2,'0')} <span class="check">✓ CLEARED</span></span><h3>${m.title}</h3><p>${m.take}</p><span class="tag">${m.tag}</span> <span class="tag xpTag">+40 XP</span></div><button onclick="openModule(${m.id})">Play this quest →</button></article>`).join('')||'<p>No modules match that search.</p>'}
+  function openModule(id){activeId=id;const m=modules.find(x=>x.id===id);$('#dialogTitle').textContent=`${String(id).padStart(2,'0')} · ${m.title}`;$('#takeaway').textContent=m.take;$('#points').innerHTML=m.points.map(x=>`<li>${x}</li>`).join('');setupClues(id);$('#prompt').textContent=m.prompt;$('#moduleNote').value=(data.notes||{})[id]||'';$('#markComplete').textContent=data.done.includes(id)?'Quest cleared ✓':'Complete quest · +40 XP';$('#moduleDialog').showModal()}
   function openResume(){const id=modules.find(m=>!data.done.includes(m.id))?.id||17;openModule(id)}
   window.openModule=openModule;window.openResume=openResume;
   $$('.tab').forEach(b=>b.onclick=()=>{$$('.tab').forEach(x=>x.classList.remove('active'));b.classList.add('active');currentFilter=b.dataset.filter;renderModules()});
   $('#search').oninput=renderModules;$('.close').onclick=()=>$('#moduleDialog').close();$('#moduleDialog').onclick=e=>{if(e.target===$('#moduleDialog'))$('#moduleDialog').close()};
   $('#saveNote').onclick=()=>{data.notes=data.notes||{};data.notes[activeId]=$('#moduleNote').value.trim();persist();toast('Reflection saved on this device')};
-  $('#markComplete').onclick=()=>{if(!data.done.includes(activeId))data.done.push(activeId);persist();renderModules();$('#markComplete').textContent='Explored ✓';toast('Module marked explored')};
+  $('#markComplete').onclick=()=>{if(!data.done.includes(activeId))data.done.push(activeId);persist();renderModules();$('#markComplete').textContent='Quest cleared ✓';toast('Quest cleared!')};
   function renderScenario(){const s=scenarios[scenarioIndex];$('#scenarioQ').textContent=s.q;$('#scenarioChoices').innerHTML=s.opts.map((o,i)=>`<button class="choice" data-i="${i}">${o}</button>`).join('');$('#scenarioFeedback').className='feedback';$$('#scenarioChoices .choice').forEach(b=>b.onclick=()=>{const ok=+b.dataset.i===s.answer;$$('#scenarioChoices .choice').forEach(x=>x.classList.remove('selected'));b.classList.add('selected');$('#scenarioFeedback').innerHTML=`<strong>${ok?'That fits.':'Take another look.'}</strong> ${s.why}`;$('#scenarioFeedback').classList.add('show')})}
   $('#nextScenario').onclick=()=>{scenarioIndex=(scenarioIndex+1)%scenarios.length;renderScenario()};
   $$('.toolTab').forEach(b=>b.onclick=()=>{$$('.toolTab').forEach(x=>x.classList.remove('active'));$$('.toolPanel').forEach(x=>x.classList.remove('active'));b.classList.add('active');$('#'+b.dataset.tool).classList.add('active')});
@@ -130,7 +185,64 @@
   $('#clearData').onclick=()=>{if(confirm('Clear all progress and private reflections stored by this site on this device?')){localStorage.removeItem('fpl-data');location.reload()}};
   $('#theme').onclick=()=>{document.body.classList.toggle('dark');localStorage.setItem('fpl-theme',document.body.classList.contains('dark')?'dark':'light')};if(localStorage.getItem('fpl-theme')==='dark')document.body.classList.add('dark');
   if(data.support){$('#safePeople').value=data.support.people||'';$('#supportNeed').value=data.support.need||$('#supportNeed').value}$('#futureNote').value=data.futureNote||'';
-  renderModules();renderScenario();renderQuiz();updateStats();
+  
+  /* ===== GAME ENGINE ===== */
+  const GAME={"titles": ["Pattern Spotter", "Clue Collector", "Boundary Builder", "Cycle Interrupter", "Relationship Crafter", "Pattern Breaker", "New-Chapter Author", "Story Rewriter"], "worlds": ["World 1 · Unlearn", "World 2 · Heal", "World 3 · Grow"], "badges": {"first": ["First Steps", "Clear your first quest"], "unlearn": ["World 1 Cleared", "Finish all 5 Unlearn quests"], "heal": ["World 2 Cleared", "Finish all 5 Heal quests"], "grow": ["World 3 Cleared", "Finish all 7 Grow quests"], "full": ["Pattern Breaker", "Clear all 17 quests"], "refl": ["Reflector", "Save 5 reflections"], "scen": ["Scenario Ace", "Get all 5 scenarios right"], "quiz": ["Trial Star", "Answer all 5 trial questions correctly"], "script": ["Script Smith", "Build a boundary script"], "support": ["Support Mapper", "Map your support circle"], "journal": ["Journal Keeper", "Write to your future self"], "xp500": ["Trailblazer", "Reach 500 XP"]}, "badgeToast": "Badge unlocked: ", "levelToast": "Level up! You are now a ", "dailyTitle": "Today's daily quest", "dailyText": {"module": "Clear a quest on the trail", "scenario": "Get scenario answers right in the Arcade", "reflect": "Save reflections inside quests", "quiz": "Answer trial questions correctly in the Arena"}, "dailyClaim": "Claim +30 XP", "dailyClaimed": "Claimed — see you tomorrow.", "dailyHint": "Finish it to claim a bonus.", "score": "Score", "combo": "Combo", "round": "Round", "clueHint": "Tap to reveal", "clueBonus": "All clues found", "moveLabel": "Power move chosen", "moduleLabel": "Quest cleared", "noteLabel": "Reflection saved", "scenarioLabel": "Scenario nailed", "quizLabel": "Correct answer", "scriptLabel": "Script built", "supportLabel": "Support circle mapped", "journalLabel": "Journal saved", "stageLabel": "Stage checked", "moves": ["Say it once, clearly — then stop explaining", "Pause the conversation and revisit it when everyone is calmer", "Tell one safe person exactly what you need"],xpText:(xp,left)=>xp+' XP · '+left+' XP to the next level',xpMax:xp=>xp+' XP · Top level reached',clueStatus:(a,b)=>'Clue cards: '+a+' of '+b+' discovered · Find them all for +10 XP',quizResult:c=>'You answered '+c+' of 5 correctly. Stars are souvenirs, not grades — every answer taught you the distinction that matters.'};
+  data.game=data.game||{xp:0,awards:{},badges:[],scenarioCorrect:[],quizCorrect:[],quizAnswered:[],daily:null};
+  data.game.awards=data.game.awards||{};data.game.badges=data.game.badges||[];data.game.scenarioCorrect=data.game.scenarioCorrect||[];data.game.quizCorrect=data.game.quizCorrect||[];data.game.quizAnswered=data.game.quizAnswered||[];data.moves=data.moves||{};
+  const LEVELS=[0,100,250,450,700,1000,1350,1750];
+  function levelFor(xp){let l=0;LEVELS.forEach((t,i)=>{if(xp>=t)l=i});return l}
+  function silentAward(key,amt){if(!data.game.awards[key]){data.game.awards[key]=1;data.game.xp+=amt}}
+  /* backfill XP for progress made before the game layer existed */
+  (data.done||[]).forEach(id=>silentAward('module:'+id,40));
+  Object.keys(data.notes||{}).forEach(id=>{if(data.notes[id])silentAward('note:'+id,15)});
+  if(data.support)silentAward('support',20); if(data.futureNote)silentAward('journal',25);
+  const BADGES=[
+    {id:'first',icon:'✦',check:()=>data.done.length>=1},
+    {id:'unlearn',icon:'⚑',check:()=>[1,2,3,4,5].every(i=>data.done.includes(i))},
+    {id:'heal',icon:'❤',check:()=>[6,7,8,9,10].every(i=>data.done.includes(i))},
+    {id:'grow',icon:'★',check:()=>[11,12,13,14,15,16,17].every(i=>data.done.includes(i))},
+    {id:'full',icon:'◆',check:()=>data.done.length>=17},
+    {id:'refl',icon:'✎',check:()=>Object.values(data.notes||{}).filter(Boolean).length>=5},
+    {id:'scen',icon:'◎',check:()=>data.game.scenarioCorrect.length>=5},
+    {id:'quiz',icon:'☆',check:()=>data.game.quizCorrect.length>=5},
+    {id:'script',icon:'✐',check:()=>!!data.game.awards['script']},
+    {id:'support',icon:'✿',check:()=>!!data.support},
+    {id:'journal',icon:'✉',check:()=>!!data.futureNote},
+    {id:'xp500',icon:'✧',check:()=>data.game.xp>=500}
+  ];
+  function confetti(n){try{if(typeof matchMedia!=='undefined'&&matchMedia('(prefers-reduced-motion: reduce)').matches)return;}catch(e){}try{n=n||70;let c=document.getElementById('confetti');if(!c){c=document.createElement('canvas');c.id='confetti';document.body.appendChild(c)}const x=c.getContext('2d');c.width=innerWidth;c.height=innerHeight;const cols=['#a9c7b4','#e6b86a','#cbc4e7','#d98d82','#ffd98f'];const ps=Array.from({length:n},()=>({x:Math.random()*c.width,y:-20-Math.random()*c.height*.35,w:6+Math.random()*7,h:8+Math.random()*9,vy:2.2+Math.random()*3.2,vx:-1.4+Math.random()*2.8,r:Math.random()*Math.PI,vr:-.12+Math.random()*.24,col:cols[Math.floor(Math.random()*cols.length)]}));const t0=performance.now();(function frame(t){x.clearRect(0,0,c.width,c.height);ps.forEach(p=>{p.y+=p.vy;p.x+=p.vx;p.r+=p.vr;x.save();x.translate(p.x,p.y);x.rotate(p.r);x.fillStyle=p.col;x.fillRect(-p.w/2,-p.h/2,p.w,p.h);x.restore()});if(t-t0<2600)requestAnimationFrame(frame);else{x.clearRect(0,0,c.width,c.height);c.remove()}})(t0)}catch(e){}}
+  function checkBadges(celebrate){let changed=false;BADGES.forEach(b=>{if(!data.game.badges.includes(b.id)&&b.check()){changed=true;data.game.badges.push(b.id);if(celebrate){setTimeout(()=>toast(GAME.badgeToast+GAME.badges[b.id][0]),650);confetti(50)}}});if(changed)persist()}
+  function awardXP(key,amt,label){if(data.game.awards[key]){checkBadges(true);renderGame();return}const before=levelFor(data.game.xp);data.game.awards[key]=1;data.game.xp+=amt;const after=levelFor(data.game.xp);persist();checkBadges(true);setTimeout(()=>toast('+'+amt+' XP'+(label?' · '+label:'')),420);if(after>before){setTimeout(()=>{toast(GAME.levelToast+GAME.titles[after]);confetti(110)},1000)}renderGame()}
+  function todayKey(){return new Date().toLocaleDateString('en-CA')}
+  const DAILY=[{type:'module',n:1},{type:'scenario',n:2},{type:'reflect',n:1},{type:'module',n:2},{type:'scenario',n:1},{type:'reflect',n:2},{type:'quiz',n:2}];
+  function dailyState(){const tk=todayKey();if(!data.game.daily||data.game.daily.date!==tk){data.game.daily={date:tk,idx:Math.floor(Date.now()/864e5)%DAILY.length,baseDone:data.done.length,baseScen:data.game.scenarioCorrect.length,baseNotes:Object.values(data.notes||{}).filter(Boolean).length,baseQuiz:data.game.quizCorrect.length,claimed:false};localStorage.setItem('fpl-data',JSON.stringify(data))}return data.game.daily}
+  function dailyProgress(d){const q=DAILY[d.idx];if(q.type==='module')return Math.min(q.n,data.done.length-d.baseDone);if(q.type==='scenario')return Math.min(q.n,data.game.scenarioCorrect.length-d.baseScen);if(q.type==='reflect')return Math.min(q.n,Object.values(data.notes||{}).filter(Boolean).length-d.baseNotes);return Math.min(q.n,data.game.quizCorrect.length-d.baseQuiz)}
+  function renderGame(){const xp=data.game.xp,lvl=levelFor(xp);const cur=LEVELS[lvl],next=LEVELS[lvl+1];const hl=$('#hudLevel');if(!hl)return;hl.textContent=lvl+1;$('#hudTitle').textContent=GAME.titles[lvl];$('#xpText').textContent=next?GAME.xpText(xp,next-xp):GAME.xpMax(xp);$('#xpFill').style.width=(next?((xp-cur)/(next-cur)*100):100)+'%';
+    const worlds=[['unlearn',[1,2,3,4,5]],['heal',[6,7,8,9,10]],['grow',[11,12,13,14,15,16,17]]];$('#worldBars').innerHTML=worlds.map(([k,ids],i)=>{const d=ids.filter(x=>data.done.includes(x)).length;return `<div class="worldBar">${GAME.worlds[i]} · ${d}/${ids.length}<div class="bar"><i style="width:${d/ids.length*100}%"></i></div></div>`}).join('');
+    $('#badgeGrid').innerHTML=BADGES.map(b=>{const got=data.game.badges.includes(b.id);return `<div class="badge ${got?'':'locked'}"><div class="bIcon">${b.icon}</div><b>${GAME.badges[b.id][0]}</b><span>${GAME.badges[b.id][1]}</span></div>`}).join('');
+    const d=dailyState(),q=DAILY[d.idx],p=dailyProgress(d),doneQ=p>=q.n;$('#dailyCard').innerHTML=`<h3>${GAME.dailyTitle}</h3><p>${GAME.dailyText[q.type]}</p><div class="bar"><i style="width:${p/q.n*100}%"></i></div><p><strong>${p} / ${q.n}</strong> ${d.claimed?GAME.dailyClaimed:(doneQ?'':GAME.dailyHint)}</p>${doneQ&&!d.claimed?`<button class="primary" data-action="claimDaily">${GAME.dailyClaim}</button>`:''}`;
+    updateScenarioHUD()}
+  let combo=0;
+  function updateScenarioHUD(){const s=$('#scScore');if(!s)return;s.textContent=GAME.score+': '+(data.game.scenarioCorrect.length*20);$('#scCombo').textContent=GAME.combo+' ×'+combo;$('#scRound').textContent=GAME.round+': '+(scenarioIndex+1)+' / '+scenarios.length}
+  function showQuizResultIfDone(){const el=$('#quizResult');if(!el)return;if(data.game.quizAnswered.length>=quiz.length){const c=data.game.quizCorrect.length;const stars=c>=5?3:c>=3?2:c>=1?1:0;el.innerHTML=`<div class="stars">${'★'.repeat(stars)}${'☆'.repeat(3-stars)}</div>${GAME.quizResult(c)}`;el.classList.remove('hidden')}else el.classList.add('hidden')}
+  function setupClues(id){const lis=$$('#points li');lis.forEach(li=>{const txt=li.textContent;li.innerHTML='';const sp=document.createElement('span');sp.className='ct';sp.textContent=txt;li.appendChild(sp);li.classList.add('clue','locked');li.dataset.hint=GAME.clueHint;li.onclick=()=>{if(li.classList.contains('locked')){li.classList.remove('locked');li.classList.add('open');const open=$$('#points li.open').length;$('#clueStatus').textContent=GAME.clueStatus(open,lis.length);if(open===lis.length)awardXP('clues:'+id,10,GAME.clueBonus)}}});$('#clueStatus').textContent=GAME.clueStatus(0,lis.length);renderPowerMove(id)}
+  function renderPowerMove(id){const list=$('#pmList');if(!list)return;list.innerHTML=GAME.moves.map((m,i)=>`<button class="pillChoice ${data.moves[id]===i?'on':''}" data-move="${i}">${m}</button>`).join('')}
+  document.addEventListener('click',e=>{
+    const mv=e.target.closest('#pmList [data-move]');if(mv){data.moves[activeId]=+mv.dataset.move;persist();renderPowerMove(activeId);awardXP('move:'+activeId,10,GAME.moveLabel);return}
+    if(e.target.closest('[data-action="claimDaily"]')){const d=dailyState();if(!d.claimed&&dailyProgress(d)>=DAILY[d.idx].n){d.claimed=true;awardXP('daily:'+d.date,30,GAME.dailyTitle)}return}
+    const sc=e.target.closest('#scenarioChoices .choice');if(sc){const s=scenarios[scenarioIndex];if(+sc.dataset.i===s.answer){combo++;if(!data.game.scenarioCorrect.includes(scenarioIndex)){data.game.scenarioCorrect.push(scenarioIndex);awardXP('scenario:'+scenarioIndex,20,GAME.scenarioLabel)}}else combo=0;updateScenarioHUD();return}
+    if(e.target.closest('#nextScenario')){setTimeout(updateScenarioHUD,0);return}
+    const qo=e.target.closest('.quizOpt');if(qo){const qi=+qo.dataset.q;if(!data.game.quizAnswered.includes(qi))data.game.quizAnswered.push(qi);if(+qo.dataset.o===quiz[qi].a&&!data.game.quizCorrect.includes(qi)){data.game.quizCorrect.push(qi);awardXP('quiz:'+qi,15,GAME.quizLabel)}persist();showQuizResultIfDone();return}
+    if(e.target.closest('#markComplete')){if(data.done.includes(activeId))awardXP('module:'+activeId,40,GAME.moduleLabel);return}
+    if(e.target.closest('#saveNote')){if((data.notes||{})[activeId])awardXP('note:'+activeId,15,GAME.noteLabel);return}
+    if(e.target.closest('#makeScript')){awardXP('script',20,GAME.scriptLabel);return}
+    if(e.target.closest('#saveSupport')){awardXP('support',20,GAME.supportLabel);return}
+    if(e.target.closest('#saveJournal')){awardXP('journal',25,GAME.journalLabel);return}
+    if(e.target.closest('#stageChoices button')){awardXP('stage',10,GAME.stageLabel);return}
+  });
+
+  renderModules();renderScenario();renderQuiz();updateStats();renderGame();updateScenarioHUD();showQuizResultIfDone();
   </script>
 </body>
 </html>

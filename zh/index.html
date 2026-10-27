@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <meta name="theme-color" content="#153a3b">
   <meta name="description" content="一个互动式心理教育资源，帮助识别不健康的家庭模式、建立清晰边界并构建更健康的亲密关系。">
-  <title>原生家庭模式实验室 | 互动心理教育资源</title>
+  <title>原生家庭模式实验室 | 一场可以玩的家庭模式探险</title>
   <style>
     :root{--ink:#183233;--muted:#607474;--paper:#fbfaf6;--card:#fff;--pine:#153a3b;--sage:#a9c7b4;--mint:#e8f2eb;--gold:#e6b86a;--rose:#d98d82;--lav:#cbc4e7;--line:#dce5df;--shadow:0 12px 35px rgba(21,58,59,.10);--radius:22px}
     *{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--paper);color:var(--ink);font:16px/1.58 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji"}button,input,textarea,select{font:inherit}button{cursor:pointer}.skip{position:absolute;left:-9999px}.skip:focus{left:12px;top:12px;z-index:99;background:#fff;padding:10px;border-radius:8px}.shell{width:min(1180px,calc(100% - 32px));margin:auto}.topbar{position:sticky;top:0;z-index:20;background:rgba(251,250,246,.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}.topinner{height:68px;display:flex;align-items:center;gap:18px}.brand{font-weight:850;letter-spacing:-.04em;color:var(--pine);white-space:nowrap}.brand span{color:#9f6d25}.nav{margin-left:auto;display:flex;gap:8px}.nav a{color:var(--ink);text-decoration:none;padding:8px 10px;border-radius:9px}.nav a:hover{background:var(--mint)}.iconbtn{border:1px solid var(--line);background:#fff;border-radius:12px;padding:9px 12px;color:var(--ink)}
@@ -34,34 +34,89 @@
     .credit{margin-top:24px;text-align:center;font-weight:750;color:var(--ink)}.credit a{color:var(--pine);text-underline-offset:3px}.credit a:hover{text-decoration-thickness:2px}.toast{position:fixed;right:20px;bottom:20px;background:#102728;color:#fff;padding:12px 16px;border-radius:12px;transform:translateY(90px);opacity:0;transition:.3s;z-index:99}.toast.show{transform:none;opacity:1}
     @media(max-width:900px){.heroGrid{grid-template-columns:1fr}.heroArt{min-height:360px}.moduleGrid{grid-template-columns:1fr 1fr}.dashboard{grid-template-columns:1fr}.nav{display:none}}@media(max-width:620px){.shell{width:min(100% - 22px,1180px)}.hero{padding-top:42px}.heroArt{transform:scale(.82);margin:-30px 0}.moduleGrid,.choiceGrid,.footerGrid{grid-template-columns:1fr}.lab,.journal{padding:22px;border-radius:22px}.sectionHead{display:block}.sectionHead p{margin-top:10px}.dialogBody{padding:18px}}
     @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.orbit,.orb{animation:none}}
+
+    /* ===== GAMIFICATION LAYER ===== */
+    .hud{background:linear-gradient(125deg,#132228,#153a3b 55%,#2c5a55);color:#eef6f2;border-radius:26px;padding:24px;margin-bottom:16px;box-shadow:var(--shadow)}
+    .hudTop{display:flex;gap:20px;align-items:center;flex-wrap:wrap}
+    .lvlCircle{width:86px;height:86px;border-radius:50%;background:radial-gradient(circle at 32% 28%,#ffe9b8,var(--gold) 58%,#c08f3e);color:#3a2a08;display:grid;place-items:center;text-align:center;box-shadow:0 8px 22px rgba(0,0,0,.28);flex:none}
+    .lvlCircle b{font-size:1.7rem;line-height:1;display:block}
+    .lvlCircle small{font-size:.6rem;font-weight:900;letter-spacing:.14em}
+    .lvlMeta{flex:1;min-width:230px}
+    .lvlMeta b{font:800 1.45rem Georgia,serif;display:block}
+    .lvlMeta span{color:#c8dbd5;font-size:.92rem}
+    .xpbar{height:13px;border-radius:99px;background:rgba(255,255,255,.16);overflow:hidden;margin-top:9px}
+    .xpbar i{display:block;height:100%;background:linear-gradient(90deg,var(--gold),#ffd98f);width:0;transition:width .7s cubic-bezier(.2,.9,.3,1)}
+    .hudStats{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-top:18px}
+    .hud .stat{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.16);color:#eef6f2}
+    .hud .stat .small{color:#bcd2cb}
+    .hud .bar{background:rgba(255,255,255,.18)}
+    .worldBars{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:12px}
+    .worldBar{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);border-radius:14px;padding:10px 13px;font-size:.85rem;font-weight:750}
+    .worldBar .bar{margin-top:7px}
+    .gameRow{display:grid;grid-template-columns:.9fr 1.6fr;gap:16px;margin-bottom:54px}
+    .dailyCard,.badgeCard{background:#fff;border:1px solid var(--line);border-radius:20px;padding:20px}
+    .dailyCard h3,.badgeCard h3{margin:0 0 6px;font:750 1.15rem Georgia,serif}
+    .dailyCard p{color:var(--muted);margin:6px 0}
+    .badgeGrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(128px,1fr));gap:10px;margin-top:12px}
+    .badge{border:1px solid var(--line);border-radius:15px;padding:12px 10px;text-align:center;background:var(--paper)}
+    .badge .bIcon{width:44px;height:44px;margin:0 auto 7px;border-radius:50%;display:grid;place-items:center;font-size:1.25rem;background:linear-gradient(135deg,#ffe9b8,var(--gold));color:#5f400f;box-shadow:0 4px 10px rgba(0,0,0,.12)}
+    .badge b{display:block;font-size:.86rem;line-height:1.25}
+    .badge span{font-size:.72rem;color:var(--muted);line-height:1.3;display:block;margin-top:3px}
+    .badge.locked{opacity:.42;filter:grayscale(.85)}
+    .badge.locked .bIcon{background:#e4e9e5;color:#7d8b85;box-shadow:none}
+    .xpTag{background:linear-gradient(90deg,#ffe9b8,#f4cd7e)!important;color:#5f400f!important}
+    .module.done{outline:3px solid var(--gold)}
+    .points li.clue{cursor:pointer;background:#fff;border:1px solid var(--line);border-radius:13px;padding:13px 15px 13px 42px;transition:.25s}
+    .points li.clue:before{content:'✦';left:14px}
+    .points li.clue.locked .ct{filter:blur(6px);opacity:.45;user-select:none}
+    .points li.clue.locked:after{content:attr(data-hint);position:absolute;right:13px;top:11px;background:var(--pine);color:#fff;font-size:.72rem;font-weight:800;border-radius:99px;padding:4px 9px}
+    .points li.clue.open{border-color:#8db8a2;background:var(--mint)}
+    .clueStatus{margin-top:12px;font-weight:800;color:var(--pine);font-size:.92rem}
+    .powerMove{background:#fdf6e3;border:1px dashed #d9b356;border-radius:16px;padding:16px 18px;margin-top:16px}
+    .powerMove h4{margin:0 0 4px}
+    .powerMove p{margin:0 0 10px;color:var(--muted);font-size:.92rem}
+    .scoreRow{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px}
+    .scorePill{background:var(--pine);color:#fff;border-radius:99px;padding:6px 12px;font-weight:800;font-size:.85rem}
+    .scorePill.gold{background:linear-gradient(90deg,#e9bd60,#c08f3e);color:#2e2105}
+    .quizResult{border-radius:16px;padding:18px;margin-bottom:16px;background:linear-gradient(125deg,#fdf3d3,#fbeec4);border:1px solid #e3c26a;font-weight:700}
+    .quizResult .stars{font-size:1.7rem;color:#b57f16;letter-spacing:.18em}
+    #confetti{position:fixed;inset:0;pointer-events:none;z-index:200}
+    body.dark .dailyCard,body.dark .badgeCard{background:#193536}
+    body.dark .badge{background:#102728}
+    body.dark .points li.clue{background:#193536}
+    body.dark .points li.clue.open{background:#234745}
+    body.dark .powerMove{background:#2f2a17}
+    body.dark .clueStatus{color:#b1d5c8}
+    @media(max-width:900px){.hudStats,.worldBars,.gameRow{grid-template-columns:1fr}}
   </style>
 </head>
 <body>
   <a class="skip" href="#main">跳转至主要内容</a>
-  <header class="topbar"><div class="shell topinner"><div class="brand">原生家庭 <span>模式实验室</span></div><nav class="nav" aria-label="Main"><a href="#path">学习</a><a href="#practice">练习</a><a href="#quiz">自测</a><a href="#journal">手记</a></nav><button class="iconbtn" id="theme" aria-label="切换深色模式">◐</button></div></header>
+  <header class="topbar"><div class="shell topinner"><div class="brand">原生家庭 <span>模式实验室</span></div><nav class="nav" aria-label="Main"><a href="#path">任务地图</a><a href="#practice">训练场</a><a href="#quiz">挑战场</a><a href="#journal">手记</a></nav><button class="iconbtn" id="theme" aria-label="切换深色模式">◐</button></div></header>
   <main id="main" class="shell">
-    <section class="hero"><div class="heroGrid"><div><span class="eyebrow">● 察觉 · 反思 · 选择</span><h1>在家庭模式中<em>重塑自我角色</em></h1><p class="lede">一个自主掌控、互动式的心理教育资源，帮助你识别不健康的家庭互动模式，在可控范围内做出选择，并练习更健康的相处方式。</p><div class="actions"><button class="primary" onclick="document.querySelector('#path').scrollIntoView()">开始探索之旅</button><button class="secondary" onclick="openResume()">继续上次的进度</button></div></div><div class="heroArt" aria-hidden="true"><div class="orbit"><div class="orb">重塑认知</div><div class="orb">自我疗愈</div><div class="orb">个人成长</div></div><div class="center">你的选择<br>是核心关键</div></div></div></section>
+    <section class="hero"><div class="heroGrid"><div><span class="eyebrow">● 一场可以玩的旅程 · 察觉 · 探索 · 选择</span><h1>在家庭模式中<em>重塑自我角色</em></h1><p class="lede">没有说教，也没有作业。在这里，你将穿越三个世界——重塑认知、自我疗愈、关系成长——完成十七个小任务：收集线索卡、赢取经验、解锁徽章，并在任务之间练习新招式。</p><div class="actions"><button class="primary" onclick="document.querySelector('#path').scrollIntoView()">开始我的探险</button><button class="secondary" onclick="openResume()">继续我的探险</button></div></div><div class="heroArt" aria-hidden="true"><div class="orbit"><div class="orb">重塑认知</div><div class="orb">自我疗愈</div><div class="orb">个人成长</div></div><div class="center">你的选择<br>是核心关键</div></div></div></section>
     <aside class="notice"><strong>免责声明：本资源为教育引导性质，非专业心理咨询或治疗。</strong> 本站为一个独立的心理教育与引导反思工具。它不提供疾病诊断、临床治疗或个性化的医疗建议。如果在反思过程中感受到严重的精神痛苦、危险或虐待风险，请暂停使用并寻求专业的心理咨询或紧急救援帮助。</aside>
-    <div class="dashboard" aria-label="你的进度"><div class="stat"><b><span id="doneCount">0</span>/17</b> 个模块已探索<div class="bar"><i id="progressBar"></i></div></div><div class="stat"><b id="reflectionCount">0</b> 条思考已保存<span class="small">（仅保存在当前浏览器中）</span></div><div class="stat"><b id="streak">良好开端</b><span class="small">改变始于察觉第一个模式</span></div></div>
-    <section id="path"><div class="sectionHead"><div><span class="eyebrow">学习路径</span><h2>十七个微小改变</h2></div><p>每个模块仅需约三分钟。你可以顺次阅读，也可以直接跳转到你当前最关心的关系或模式主题。</p></div>
-      <div class="pathTabs" role="group" aria-label="筛选模块"><button class="tab active" data-filter="all">全部 17 项</button><button class="tab" data-filter="unlearn">重塑认知</button><button class="tab" data-filter="heal">自我疗愈</button><button class="tab" data-filter="grow">关系成长</button></div>
+    <div class="hud" aria-label="你的探险进度"><div class="hudTop"><div class="lvlCircle"><div><b id="hudLevel">1</b><small>等级</small></div></div><div class="lvlMeta"><b id="hudTitle">模式侦探</b><span id="xpText">0 经验</span><div class="xpbar"><i id="xpFill"></i></div></div></div><div class="hudStats"><div class="stat"><b><span id="doneCount">0</span>/17</b> 个任务已通关<div class="bar"><i id="progressBar"></i></div></div><div class="stat"><b id="reflectionCount">0</b> 条思考已保存<span class="small">（仅保存在当前浏览器中）</span></div><div class="stat"><b id="streak">良好开端</b><span class="small">你当前所在的篇章</span></div></div><div class="worldBars" id="worldBars"></div></div>
+    <div class="gameRow"><div class="dailyCard" id="dailyCard"></div><div class="badgeCard"><h3>你的徽章收藏柜</h3><p class="small" style="color:var(--muted);margin:0">十二枚徽章藏在任务、训练场和挑战场里。灰色的还在等你去赢。</p><div class="badgeGrid" id="badgeGrid"></div></div></div>
+    <section id="path"><div class="sectionHead"><div><span class="eyebrow">任务地图</span><h2>十七个任务，三个世界</h2></div><p>每个任务约需三分钟，完成后可获得经验。沿着地图顺序前进，或者直接传送到你今天最关心的那个模式——没有任何任务会被锁住。</p></div>
+      <div class="pathTabs" role="group" aria-label="筛选模块"><button class="tab active" data-filter="all">完整地图 · 17</button><button class="tab" data-filter="unlearn">世界一 · 重塑认知</button><button class="tab" data-filter="heal">世界二 · 自我疗愈</button><button class="tab" data-filter="grow">世界三 · 关系成长</button></div>
       <input class="search" id="search" type="search" placeholder="搜索关键词：边界、愧疚感、兄弟姐妹、断联…" aria-label="搜索学习模块">
       <div class="moduleGrid" id="modules"></div>
     </section>
 
-    <section class="lab" id="practice"><span class="eyebrow">实践实验室</span><h2>安全地尝试与练习</h2><p class="labIntro">这些工具能帮助你将认知转化为行动步骤。所有输入均不会上传服务器，仅保留在你的浏览器中。</p>
+    <section class="lab" id="practice"><span class="eyebrow">训练场</span><h2>小游戏，真本领</h2><p class="labIntro">在任务之间来这里热身——每个小游戏首次通关都能赢取经验。所有输入均不会上传服务器，仅保留在你的浏览器中。</p>
       <div class="toolTabs" role="tablist"><button class="toolTab active" data-tool="scenario">边界还是控制？</button><button class="toolTab" data-tool="builder">边界话术生成器</button><button class="toolTab" data-tool="stage">改变阶段自测</button><button class="toolTab" data-tool="support">绘制支持圈</button></div>
-      <div class="toolPanel active" id="scenario"><div class="question" id="scenarioQ"></div><div class="choiceGrid" id="scenarioChoices"></div><div class="feedback" id="scenarioFeedback"></div><button class="primary" id="nextScenario" style="margin-top:15px">下一个场景</button></div>
+      <div class="toolPanel active" id="scenario"><div class="scoreRow"><span class="scorePill gold" id="scScore">分数: 0</span><span class="scorePill" id="scCombo">连对 ×0</span><span class="scorePill" id="scRound">回合: 1 / 5</span></div><div class="question" id="scenarioQ"></div><div class="choiceGrid" id="scenarioChoices"></div><div class="feedback" id="scenarioFeedback"></div><button class="primary" id="nextScenario" style="margin-top:15px">下一个场景</button></div>
       <div class="toolPanel" id="builder"><h3>构建清晰的边界表达</h3><p>边界表达的是你将采取的行动，而不是对他人提出的控制性要求。</p><div class="field"><label for="situation">当这种情况发生时……</label><input id="situation" placeholder="例如：对话开始出现人身攻击或侮辱"></div><div class="field"><label for="need">我需要 / 我将会……</label><input id="need" placeholder="例如：挂断电话，改天等双方冷静后再沟通"></div><div class="field"><label for="tone">选择沟通语气</label><select id="tone"><option value="warm">温和而坚定</option><option value="brief">简明扼要</option><option value="collab">合作共赢</option></select></div><button class="primary" id="makeScript">生成我的话术</button><div class="scriptOut" id="scriptOut" aria-live="polite">你生成的话术草稿将显示在这里。</div></div>
       <div class="toolPanel" id="stage"><h3>你目前处于改变过程的哪个阶段？</h3><p>选择最符合你今天状态的描述。阶段并没有好坏之分，人们常会在不同阶段间往复。</p><div class="pillList" id="stageChoices"></div><div class="resultCard" id="stageResult">请选择一项，查看充满包容的下一步建议。</div></div>
       <div class="toolPanel" id="support"><h3>绘制你的支持系统</h3><p>健康的社交支持可以来自亲戚、朋友、社区伙伴、同伴、导师或专业人士。</p><div class="field"><label for="safePeople">让你感到情绪安全的人</label><textarea id="safePeople" placeholder="姓名或身份——如果需要保护隐私，可以使用首字母代称"></textarea></div><div class="field"><label for="supportNeed">你目前最需要哪种支持？</label><select id="supportNeed"><option>倾听且不急于评价或教我做事的人</option><option>实际的生活帮助与支持</option><option>真诚、有爱且能给予建设性反馈的人</option><option>分享快乐与日常陪伴</option><option>专业心理支持</option></select></div><button class="primary" id="saveSupport">保存</button></div>
     </section>
 
-    <section id="quiz"><div class="sectionHead"><div><span class="eyebrow">知识自测</span><h2>梳理与巩固你的收获</h2></div><p>测试结果不会被记录或打分。这些问题旨在帮你澄清观念，无需过度自我苛求。</p></div><div id="quizList"></div></section>
-    <section class="journal" id="journal"><h2>给未来自己的一封信</h2><p>你希望停止将哪种家庭模式继续延续下去？你今天可以采取的哪一个小小的行动，能体现出你渴望成为的那个自己？</p><textarea id="futureNote" placeholder="自由书写，内容将完全保存在你的本地设备上。"></textarea><div class="actions"><button class="primary" id="saveJournal">保存</button><button class="secondary" id="exportJournal">导出我的思考手记</button><button class="secondary" id="clearData">清除我的本地数据</button></div></section>
+    <section id="quiz"><div class="sectionHead"><div><span class="eyebrow">挑战场</span><h2>模式大考验</h2></div><p>五道题，用星星代替分数。全部答完即可揭晓你的星级——答对有经验奖励，答错也毫无评判。</p></div><div id="quizResult" class="quizResult hidden"></div><div id="quizList"></div></section>
+    <section class="journal" id="journal"><h2>奖励任务：给未来自己的一封信</h2><p>你希望停止将哪种家庭模式继续延续下去？你今天可以采取的哪一个小小的行动，能体现出你渴望成为的那个自己？</p><textarea id="futureNote" placeholder="自由书写，内容将完全保存在你的本地设备上。"></textarea><div class="actions"><button class="primary" id="saveJournal">保存</button><button class="secondary" id="exportJournal">导出我的思考手记</button><button class="secondary" id="clearData">清除我的本地数据</button></div></section>
   </main>
   <footer class="footer"><div class="shell"><div class="footerGrid"><div><strong>关于本资源</strong><p class="small">原生家庭模式实验室提供通俗易懂的心理教育、引导式反思、实用的边界表达工具以及聚焦关系的练习，帮助人们应对复杂的家庭动态。请选择适合你情况的内容，并以你感到舒适的节奏推进。</p></div><div><strong>安全提示</strong><p class="small">在存在高冲突或强迫控制的环境中，设置边界可能影响个人安全。请评估自身安全并制定安全计划。在中国大陆，如遇心理危机可拨打心理援助热线（如 12355 或 400-161-9995），紧急情况请拨打 110。在美国，如遇心理危机可拨打或短信联系 988；如有紧急危险请拨打 911。本网站不提供临床诊断、治疗或紧急救援服务。</p></div></div><div class="credit">由 <a href="https://mindx.us/zh/" target="_blank" rel="noopener noreferrer">Mind X社区</a> 开发</div></div></footer>
-  <dialog id="moduleDialog"><div class="dialogHead"><h2 id="dialogTitle"></h2><button class="close" aria-label="关闭">×</button></div><div class="dialogBody"><div class="takeaway" id="takeaway"></div><ul class="points" id="points"></ul><div class="reflect"><h4 id="prompt"></h4><textarea id="moduleNote" placeholder="在这里写下你的思考……"></textarea><div class="saveRow"><button class="save" id="saveNote">保存</button><button class="complete" id="markComplete">标记为已探索</button></div></div></div></dialog>
+  <dialog id="moduleDialog"><div class="dialogHead"><h2 id="dialogTitle"></h2><button class="close" aria-label="关闭">×</button></div><div class="dialogBody"><div class="takeaway" id="takeaway"></div><ul class="points" id="points"></ul><div class="clueStatus" id="clueStatus"></div><div class="powerMove"><h4>选择你的绝招</h4><p>反思之前，先选一个你真的愿意在现实中试一次的行动。选定即可获得 +10 经验。</p><div class="pillList" id="pmList"></div></div><div class="reflect"><h4 id="prompt"></h4><textarea id="moduleNote" placeholder="在这里写下你的思考……"></textarea><div class="saveRow"><button class="save" id="saveNote">保存 · +15 经验</button><button class="complete" id="markComplete">完成任务 · +40 经验</button></div></div></div></dialog>
   <div class="toast" id="toast" role="status"></div>
   <script>
   const modules=[
@@ -107,17 +162,17 @@
   let activeId=1,scenarioIndex=0,currentFilter='all';
   const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
   const data=JSON.parse(localStorage.getItem('fpl-data')||'{"done":[],"notes":{}}');
-  function persist(){localStorage.setItem('fpl-data',JSON.stringify(data));updateStats()}
+  function persist(){localStorage.setItem('fpl-data',JSON.stringify(data));updateStats();renderGame()}
   function toast(msg){const t=$('#toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2200)}
   function updateStats(){const n=data.done.length;$('#doneCount').textContent=n;$('#progressBar').style.width=(n/17*100)+'%';$('#reflectionCount').textContent=Object.values(data.notes||{}).filter(Boolean).length+(data.futureNote?1:0)+(data.support?1:0);$('#streak').textContent=n===17?'旅程圆满完成':n>=10?'持续成长中':n>=5?'建立改变势头':n?'行动进行中':'良好开端'}
-  function renderModules(){const q=$('#search').value.toLowerCase();$('#modules').innerHTML=modules.filter(m=>(currentFilter==='all'||m.path===currentFilter)&&(`${m.title} ${m.tag} ${m.points.join(' ')}`).toLowerCase().includes(q)).map(m=>`<article class="module ${data.done.includes(m.id)?'done':''}" data-id="${m.id}"><div class="moduleTop"><span class="moduleNum">${m.path.toUpperCase()} · ${String(m.id).padStart(2,'0')} <span class="check">✓ 已探索</span></span><h3>${m.title}</h3><p>${m.take}</p><span class="tag">${m.tag}</span></div><button onclick="openModule(${m.id})">开启 3分钟模块 →</button></article>`).join('')||'<p>没有找到匹配该搜索条件的模块。</p>'}
-  function openModule(id){activeId=id;const m=modules.find(x=>x.id===id);$('#dialogTitle').textContent=`${String(id).padStart(2,'0')} · ${m.title}`;$('#takeaway').textContent=m.take;$('#points').innerHTML=m.points.map(x=>`<li>${x}</li>`).join('');$('#prompt').textContent=m.prompt;$('#moduleNote').value=(data.notes||{})[id]||'';$('#markComplete').textContent=data.done.includes(id)?'已探索 ✓':'标记为已探索';$('#moduleDialog').showModal()}
+  function renderModules(){const q=$('#search').value.toLowerCase();$('#modules').innerHTML=modules.filter(m=>(currentFilter==='all'||m.path===currentFilter)&&(`${m.title} ${m.tag} ${m.points.join(' ')}`).toLowerCase().includes(q)).map(m=>`<article class="module ${data.done.includes(m.id)?'done':''}" data-id="${m.id}"><div class="moduleTop"><span class="moduleNum">${m.path.toUpperCase()} · ${String(m.id).padStart(2,'0')} <span class="check">✓ 已通关</span></span><h3>${m.title}</h3><p>${m.take}</p><span class="tag">${m.tag}</span> <span class="tag xpTag">+40 经验</span></div><button onclick="openModule(${m.id})">开始任务 →</button></article>`).join('')||'<p>没有找到匹配该搜索条件的模块。</p>'}
+  function openModule(id){activeId=id;const m=modules.find(x=>x.id===id);$('#dialogTitle').textContent=`${String(id).padStart(2,'0')} · ${m.title}`;$('#takeaway').textContent=m.take;$('#points').innerHTML=m.points.map(x=>`<li>${x}</li>`).join('');setupClues(id);$('#prompt').textContent=m.prompt;$('#moduleNote').value=(data.notes||{})[id]||'';$('#markComplete').textContent=data.done.includes(id)?'已通关 ✓':'完成任务 · +40 经验';$('#moduleDialog').showModal()}
   function openResume(){const id=modules.find(m=>!data.done.includes(m.id))?.id||17;openModule(id)}
   window.openModule=openModule;window.openResume=openResume;
   $$('.tab').forEach(b=>b.onclick=()=>{$$('.tab').forEach(x=>x.classList.remove('active'));b.classList.add('active');currentFilter=b.dataset.filter;renderModules()});
   $('#search').oninput=renderModules;$('.close').onclick=()=>$('#moduleDialog').close();$('#moduleDialog').onclick=e=>{if(e.target===$('#moduleDialog'))$('#moduleDialog').close()};
   $('#saveNote').onclick=()=>{data.notes=data.notes||{};data.notes[activeId]=$('#moduleNote').value.trim();persist();toast('反思笔记已保存在本设备上')};
-  $('#markComplete').onclick=()=>{if(!data.done.includes(activeId))data.done.push(activeId);persist();renderModules();$('#markComplete').textContent='已探索 ✓';toast('模块已标记为已探索')};
+  $('#markComplete').onclick=()=>{if(!data.done.includes(activeId))data.done.push(activeId);persist();renderModules();$('#markComplete').textContent='已通关 ✓';toast('任务完成！')};
   function renderScenario(){const s=scenarios[scenarioIndex];$('#scenarioQ').textContent=s.q;$('#scenarioChoices').innerHTML=s.opts.map((o,i)=>`<button class="choice" data-i="${i}">${o}</button>`).join('');$('#scenarioFeedback').className='feedback';$$('#scenarioChoices .choice').forEach(b=>b.onclick=()=>{const ok=+b.dataset.i===s.answer;$$('#scenarioChoices .choice').forEach(x=>x.classList.remove('selected'));b.classList.add('selected');$('#scenarioFeedback').innerHTML=`<strong>${ok?'理解正确！':'不妨再思考一下。'}</strong> ${s.why}`;$('#scenarioFeedback').classList.add('show')})}
   $('#nextScenario').onclick=()=>{scenarioIndex=(scenarioIndex+1)%scenarios.length;renderScenario()};
   $$('.toolTab').forEach(b=>b.onclick=()=>{$$('.toolTab').forEach(x=>x.classList.remove('active'));$$('.toolPanel').forEach(x=>x.classList.remove('active'));b.classList.add('active');$('#'+b.dataset.tool).classList.add('active')});
@@ -130,7 +185,64 @@
   $('#clearData').onclick=()=>{if(confirm('确定要清除本实现在当前设备上存储的所有学习进度和 private 思考手记吗？')){localStorage.removeItem('fpl-data');location.reload()}};
   $('#theme').onclick=()=>{document.body.classList.toggle('dark');localStorage.setItem('fpl-theme',document.body.classList.contains('dark')?'dark':'light')};if(localStorage.getItem('fpl-theme')==='dark')document.body.classList.add('dark');
   if(data.support){$('#safePeople').value=data.support.people||'';$('#supportNeed').value=data.support.need||$('#supportNeed').value}$('#futureNote').value=data.futureNote||'';
-  renderModules();renderScenario();renderQuiz();updateStats();
+  
+  /* ===== GAME ENGINE ===== */
+  const GAME={"titles": ["模式侦探", "线索收集者", "边界建造者", "循环打断者", "关系塑造者", "模式破局者", "新篇章作者", "故事改写者"], "worlds": ["世界一 · 重塑认知", "世界二 · 自我疗愈", "世界三 · 关系成长"], "badges": {"first": ["第一步", "完成第一个任务"], "unlearn": ["世界一通关", "完成全部 5 个重塑认知任务"], "heal": ["世界二通关", "完成全部 5 个自我疗愈任务"], "grow": ["世界三通关", "完成全部 7 个关系成长任务"], "full": ["模式破局者", "通关全部 17 个任务"], "refl": ["反思者", "保存 5 条反思"], "scen": ["场景高手", "5 个场景全部答对"], "quiz": ["考验之星", "5 道考验题全部答对"], "script": ["话术匠人", "生成一段边界话术"], "support": ["支持绘制者", "绘制你的支持圈"], "journal": ["手记守护者", "给未来的自己写信"], "xp500": ["开拓者", "累计获得 500 经验"]}, "badgeToast": "新徽章解锁：", "levelToast": "升级了！你现在是——", "dailyTitle": "今日任务", "dailyText": {"module": "在任务地图上通关任务", "scenario": "在训练场答对场景题", "reflect": "在任务中保存反思", "quiz": "在挑战场答对考验题"}, "dailyClaim": "领取 +30 经验", "dailyClaimed": "已领取——明天再来。", "dailyHint": "完成后可领取奖励。", "score": "分数", "combo": "连对", "round": "回合", "clueHint": "点击揭示", "clueBonus": "线索全部找到", "moveLabel": "已选择绝招", "moduleLabel": "任务完成", "noteLabel": "反思已保存", "scenarioLabel": "场景答对", "quizLabel": "回答正确", "scriptLabel": "话术已生成", "supportLabel": "支持圈已绘制", "journalLabel": "手记已保存", "stageLabel": "阶段已确认", "moves": ["清楚地说一次——然后停止解释", "暂停对话，等大家都冷静后再谈", "告诉一位安全的人你具体需要什么"],xpText:(xp,left)=>xp+' 经验 · 还差 '+left+' 经验升到下一级',xpMax:xp=>xp+' 经验 · 已达最高等级',clueStatus:(a,b)=>'线索卡：已发现 '+a+' / '+b+' · 全部找到 +10 经验',quizResult:c=>'你答对了 5 题中的 '+c+' 题。星星是纪念品，不是成绩——每个答案都帮你看清了关键区别。'};
+  data.game=data.game||{xp:0,awards:{},badges:[],scenarioCorrect:[],quizCorrect:[],quizAnswered:[],daily:null};
+  data.game.awards=data.game.awards||{};data.game.badges=data.game.badges||[];data.game.scenarioCorrect=data.game.scenarioCorrect||[];data.game.quizCorrect=data.game.quizCorrect||[];data.game.quizAnswered=data.game.quizAnswered||[];data.moves=data.moves||{};
+  const LEVELS=[0,100,250,450,700,1000,1350,1750];
+  function levelFor(xp){let l=0;LEVELS.forEach((t,i)=>{if(xp>=t)l=i});return l}
+  function silentAward(key,amt){if(!data.game.awards[key]){data.game.awards[key]=1;data.game.xp+=amt}}
+  /* backfill XP for progress made before the game layer existed */
+  (data.done||[]).forEach(id=>silentAward('module:'+id,40));
+  Object.keys(data.notes||{}).forEach(id=>{if(data.notes[id])silentAward('note:'+id,15)});
+  if(data.support)silentAward('support',20); if(data.futureNote)silentAward('journal',25);
+  const BADGES=[
+    {id:'first',icon:'✦',check:()=>data.done.length>=1},
+    {id:'unlearn',icon:'⚑',check:()=>[1,2,3,4,5].every(i=>data.done.includes(i))},
+    {id:'heal',icon:'❤',check:()=>[6,7,8,9,10].every(i=>data.done.includes(i))},
+    {id:'grow',icon:'★',check:()=>[11,12,13,14,15,16,17].every(i=>data.done.includes(i))},
+    {id:'full',icon:'◆',check:()=>data.done.length>=17},
+    {id:'refl',icon:'✎',check:()=>Object.values(data.notes||{}).filter(Boolean).length>=5},
+    {id:'scen',icon:'◎',check:()=>data.game.scenarioCorrect.length>=5},
+    {id:'quiz',icon:'☆',check:()=>data.game.quizCorrect.length>=5},
+    {id:'script',icon:'✐',check:()=>!!data.game.awards['script']},
+    {id:'support',icon:'✿',check:()=>!!data.support},
+    {id:'journal',icon:'✉',check:()=>!!data.futureNote},
+    {id:'xp500',icon:'✧',check:()=>data.game.xp>=500}
+  ];
+  function confetti(n){try{if(typeof matchMedia!=='undefined'&&matchMedia('(prefers-reduced-motion: reduce)').matches)return;}catch(e){}try{n=n||70;let c=document.getElementById('confetti');if(!c){c=document.createElement('canvas');c.id='confetti';document.body.appendChild(c)}const x=c.getContext('2d');c.width=innerWidth;c.height=innerHeight;const cols=['#a9c7b4','#e6b86a','#cbc4e7','#d98d82','#ffd98f'];const ps=Array.from({length:n},()=>({x:Math.random()*c.width,y:-20-Math.random()*c.height*.35,w:6+Math.random()*7,h:8+Math.random()*9,vy:2.2+Math.random()*3.2,vx:-1.4+Math.random()*2.8,r:Math.random()*Math.PI,vr:-.12+Math.random()*.24,col:cols[Math.floor(Math.random()*cols.length)]}));const t0=performance.now();(function frame(t){x.clearRect(0,0,c.width,c.height);ps.forEach(p=>{p.y+=p.vy;p.x+=p.vx;p.r+=p.vr;x.save();x.translate(p.x,p.y);x.rotate(p.r);x.fillStyle=p.col;x.fillRect(-p.w/2,-p.h/2,p.w,p.h);x.restore()});if(t-t0<2600)requestAnimationFrame(frame);else{x.clearRect(0,0,c.width,c.height);c.remove()}})(t0)}catch(e){}}
+  function checkBadges(celebrate){let changed=false;BADGES.forEach(b=>{if(!data.game.badges.includes(b.id)&&b.check()){changed=true;data.game.badges.push(b.id);if(celebrate){setTimeout(()=>toast(GAME.badgeToast+GAME.badges[b.id][0]),650);confetti(50)}}});if(changed)persist()}
+  function awardXP(key,amt,label){if(data.game.awards[key]){checkBadges(true);renderGame();return}const before=levelFor(data.game.xp);data.game.awards[key]=1;data.game.xp+=amt;const after=levelFor(data.game.xp);persist();checkBadges(true);setTimeout(()=>toast('+'+amt+' XP'+(label?' · '+label:'')),420);if(after>before){setTimeout(()=>{toast(GAME.levelToast+GAME.titles[after]);confetti(110)},1000)}renderGame()}
+  function todayKey(){return new Date().toLocaleDateString('en-CA')}
+  const DAILY=[{type:'module',n:1},{type:'scenario',n:2},{type:'reflect',n:1},{type:'module',n:2},{type:'scenario',n:1},{type:'reflect',n:2},{type:'quiz',n:2}];
+  function dailyState(){const tk=todayKey();if(!data.game.daily||data.game.daily.date!==tk){data.game.daily={date:tk,idx:Math.floor(Date.now()/864e5)%DAILY.length,baseDone:data.done.length,baseScen:data.game.scenarioCorrect.length,baseNotes:Object.values(data.notes||{}).filter(Boolean).length,baseQuiz:data.game.quizCorrect.length,claimed:false};localStorage.setItem('fpl-data',JSON.stringify(data))}return data.game.daily}
+  function dailyProgress(d){const q=DAILY[d.idx];if(q.type==='module')return Math.min(q.n,data.done.length-d.baseDone);if(q.type==='scenario')return Math.min(q.n,data.game.scenarioCorrect.length-d.baseScen);if(q.type==='reflect')return Math.min(q.n,Object.values(data.notes||{}).filter(Boolean).length-d.baseNotes);return Math.min(q.n,data.game.quizCorrect.length-d.baseQuiz)}
+  function renderGame(){const xp=data.game.xp,lvl=levelFor(xp);const cur=LEVELS[lvl],next=LEVELS[lvl+1];const hl=$('#hudLevel');if(!hl)return;hl.textContent=lvl+1;$('#hudTitle').textContent=GAME.titles[lvl];$('#xpText').textContent=next?GAME.xpText(xp,next-xp):GAME.xpMax(xp);$('#xpFill').style.width=(next?((xp-cur)/(next-cur)*100):100)+'%';
+    const worlds=[['unlearn',[1,2,3,4,5]],['heal',[6,7,8,9,10]],['grow',[11,12,13,14,15,16,17]]];$('#worldBars').innerHTML=worlds.map(([k,ids],i)=>{const d=ids.filter(x=>data.done.includes(x)).length;return `<div class="worldBar">${GAME.worlds[i]} · ${d}/${ids.length}<div class="bar"><i style="width:${d/ids.length*100}%"></i></div></div>`}).join('');
+    $('#badgeGrid').innerHTML=BADGES.map(b=>{const got=data.game.badges.includes(b.id);return `<div class="badge ${got?'':'locked'}"><div class="bIcon">${b.icon}</div><b>${GAME.badges[b.id][0]}</b><span>${GAME.badges[b.id][1]}</span></div>`}).join('');
+    const d=dailyState(),q=DAILY[d.idx],p=dailyProgress(d),doneQ=p>=q.n;$('#dailyCard').innerHTML=`<h3>${GAME.dailyTitle}</h3><p>${GAME.dailyText[q.type]}</p><div class="bar"><i style="width:${p/q.n*100}%"></i></div><p><strong>${p} / ${q.n}</strong> ${d.claimed?GAME.dailyClaimed:(doneQ?'':GAME.dailyHint)}</p>${doneQ&&!d.claimed?`<button class="primary" data-action="claimDaily">${GAME.dailyClaim}</button>`:''}`;
+    updateScenarioHUD()}
+  let combo=0;
+  function updateScenarioHUD(){const s=$('#scScore');if(!s)return;s.textContent=GAME.score+': '+(data.game.scenarioCorrect.length*20);$('#scCombo').textContent=GAME.combo+' ×'+combo;$('#scRound').textContent=GAME.round+': '+(scenarioIndex+1)+' / '+scenarios.length}
+  function showQuizResultIfDone(){const el=$('#quizResult');if(!el)return;if(data.game.quizAnswered.length>=quiz.length){const c=data.game.quizCorrect.length;const stars=c>=5?3:c>=3?2:c>=1?1:0;el.innerHTML=`<div class="stars">${'★'.repeat(stars)}${'☆'.repeat(3-stars)}</div>${GAME.quizResult(c)}`;el.classList.remove('hidden')}else el.classList.add('hidden')}
+  function setupClues(id){const lis=$$('#points li');lis.forEach(li=>{const txt=li.textContent;li.innerHTML='';const sp=document.createElement('span');sp.className='ct';sp.textContent=txt;li.appendChild(sp);li.classList.add('clue','locked');li.dataset.hint=GAME.clueHint;li.onclick=()=>{if(li.classList.contains('locked')){li.classList.remove('locked');li.classList.add('open');const open=$$('#points li.open').length;$('#clueStatus').textContent=GAME.clueStatus(open,lis.length);if(open===lis.length)awardXP('clues:'+id,10,GAME.clueBonus)}}});$('#clueStatus').textContent=GAME.clueStatus(0,lis.length);renderPowerMove(id)}
+  function renderPowerMove(id){const list=$('#pmList');if(!list)return;list.innerHTML=GAME.moves.map((m,i)=>`<button class="pillChoice ${data.moves[id]===i?'on':''}" data-move="${i}">${m}</button>`).join('')}
+  document.addEventListener('click',e=>{
+    const mv=e.target.closest('#pmList [data-move]');if(mv){data.moves[activeId]=+mv.dataset.move;persist();renderPowerMove(activeId);awardXP('move:'+activeId,10,GAME.moveLabel);return}
+    if(e.target.closest('[data-action="claimDaily"]')){const d=dailyState();if(!d.claimed&&dailyProgress(d)>=DAILY[d.idx].n){d.claimed=true;awardXP('daily:'+d.date,30,GAME.dailyTitle)}return}
+    const sc=e.target.closest('#scenarioChoices .choice');if(sc){const s=scenarios[scenarioIndex];if(+sc.dataset.i===s.answer){combo++;if(!data.game.scenarioCorrect.includes(scenarioIndex)){data.game.scenarioCorrect.push(scenarioIndex);awardXP('scenario:'+scenarioIndex,20,GAME.scenarioLabel)}}else combo=0;updateScenarioHUD();return}
+    if(e.target.closest('#nextScenario')){setTimeout(updateScenarioHUD,0);return}
+    const qo=e.target.closest('.quizOpt');if(qo){const qi=+qo.dataset.q;if(!data.game.quizAnswered.includes(qi))data.game.quizAnswered.push(qi);if(+qo.dataset.o===quiz[qi].a&&!data.game.quizCorrect.includes(qi)){data.game.quizCorrect.push(qi);awardXP('quiz:'+qi,15,GAME.quizLabel)}persist();showQuizResultIfDone();return}
+    if(e.target.closest('#markComplete')){if(data.done.includes(activeId))awardXP('module:'+activeId,40,GAME.moduleLabel);return}
+    if(e.target.closest('#saveNote')){if((data.notes||{})[activeId])awardXP('note:'+activeId,15,GAME.noteLabel);return}
+    if(e.target.closest('#makeScript')){awardXP('script',20,GAME.scriptLabel);return}
+    if(e.target.closest('#saveSupport')){awardXP('support',20,GAME.supportLabel);return}
+    if(e.target.closest('#saveJournal')){awardXP('journal',25,GAME.journalLabel);return}
+    if(e.target.closest('#stageChoices button')){awardXP('stage',10,GAME.stageLabel);return}
+  });
+
+  renderModules();renderScenario();renderQuiz();updateStats();renderGame();updateScenarioHUD();showQuizResultIfDone();
   </script>
 </body>
 </html>
